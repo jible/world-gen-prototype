@@ -1,0 +1,26 @@
+/* style.css */
+
+/* Set the canvas element to be the full size of the container */
+/* Palette generated at https://coolors.co/eecf6d-d5ac4e-8b6220-720e07-45050c */
+canvas {
+  width: 90vh;
+  height: 90vh;
+}
+
+/* Center the canvas element on the page */
+body {
+  background-color: #8B6220;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#canvas-container {
+  width: 90vh;
+  height: 90vh;
+}
+
+.outer-container {
+  display: flex;
+  flex-direction: row;
+}

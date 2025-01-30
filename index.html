@@ -27,16 +27,17 @@
     <!-- Use me for a p5.js project -->
   </head>
   <body>
+
     <!-- Style this page by changing the CSS in ../css/site.css or css/experiment.css -->
     <main id="content">
-      <section>
-        
+        <div id="level-select">
+
+        </div>
         <div id="canvas-container">
           <!-- p5 canvas will be added here -->
         </div>
         <div class="modifiers">
           <button id="regen">Regenerate</button>
-          <button id="cleanUp">Clean up</button>
           <button id="smooth">Smooth</button>
           <button id="gradient">Gradient</button>
           
@@ -45,11 +46,11 @@
           </select>
         </div>
         
-      </section>
     </main>
 
 
     <!-- My scripts -->
+    <script src="js/levels.js"></script>
     <script src="js/configureElements.js"></script>
     <script src="js/world.js"></script>
     <script src="js/main.js"></script>

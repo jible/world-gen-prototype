@@ -7,6 +7,14 @@ canvas {
   height: 90vh;
 }
 
+#level-select{
+  display: block;
+}
+
+#content{
+  display: inline;
+}
+
 /* Center the canvas element on the page */
 body {
   background-color: #8B6220;

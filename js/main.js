@@ -9,10 +9,13 @@ function setup() {
   const canvas = createCanvas(canvasContainer.width(), canvasContainer.height());
   canvas.parent("canvas-container");
 
+
   $(window).resize(resizeScreen);
 
-  world = new World(numCols, numRows);
-  world.generateWorld("noise" , seed);
+  world = new World(numCols, numRows, levels[0]);
+  world.generateWorld(seed);
+
+  makeButtons(levels,world)
 }
 
 function draw() {

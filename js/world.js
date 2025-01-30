@@ -16,38 +16,21 @@ class Vector2 {
     dupe() {
       return new Vector2(this.x, this.y);
     }
-  }
+}
   
   
 class World {
-    constructor(width, height) {
+    constructor(width, height, currentLevel) {
         this.width = width;
         this.height = height;
         this.matrix = Array.from({ length: this.height }, () => Array.from({ length: this.width }, () => Math.floor(Math.random() * 100)));
+        this.currentLevel = currentLevel
+    } 
+
+
+    generateWorld(seed){
+        this.currentLevel.generate(this,seed)
     }
-
-    palettes = [
-        {
-            'wall' : [143, 134, 111],
-            'light-wall' : [51, 46, 32],
-            'floor' : [36, 32, 22]
-        },
-        {
-            'wall' : '#45050C',
-            'light-wall' : '#720E07',
-            'floor' : '#7F3814'
-        }
-    ]  
-
-
-    generateWorld(method, seed){
-        switch(method){
-            case "noise":
-                this.genMethodNoise(seed)
-            
-        }
-    }
-
 
     getValue(pos) {
         return this.matrix[pos.y][pos.x];
@@ -61,22 +44,17 @@ class World {
         this.matrix[pos.y][pos.x] += add;
     }
 
-    cleanUp() {
-        const newMat = this.matrix.map((row, y) => row.map((cell, x) => {
-        let count = 0;
-        if (cell < 0.35) {
-            for (let i = -1; i <= 1; i++) {
-            for (let j = -1; j <= 1; j++) {
-                const coord = new Vector2(x + i, y + j);
-                if (coord.x < 0 || coord.x >= this.width || coord.y < 0 || coord.y >= this.height) count++;
-                else if (this.matrix[y][x] <= 0.98) count++;
-            }
+    applyNoise(seed){
+        const noiseScale = 0.1;
+        for (let x = 0; x < this.width; x++) {
+            for (let y = 0; y < this.height; y++) {
+                const noiseValue = noise(x * noiseScale + seed, y * noiseScale + seed);
+                this.matrix[x][y] = noiseValue;
             }
         }
-        return count <= 3 ? 0.5 : cell;
-        }));
-        this.matrix = newMat;
+
     }
+            
 
     applySmooth() {
         const newMat = this.matrix.map((row, y) => row.map((cell, x) => {
@@ -94,24 +72,16 @@ class World {
         this.matrix = newMat;
     }
 
-    genMethodNoise(seed = 0) {
-        const noiseScale = 0.1;
-        for (let x = 0; x < this.width; x++) {
-        for (let y = 0; y < this.height; y++) {
-            const noiseValue = noise(x * noiseScale + seed, y * noiseScale + seed);
-            this.matrix[x][y] = noiseValue;
-        }
-        }
-    }
+    
 
-    applyGradient() {
+    applyGradient(radius = 2) {
         const center = new Vector2(this.width / 2, this.height / 2);
         const maxDistance = Math.sqrt(center.x ** 2 + center.y ** 2);
 
         for (let x = 0; x < this.width; x++) {
         for (let y = 0; y < this.height; y++) {
             const distance = Math.sqrt((x - center.x) ** 2 + (y - center.y) ** 2);
-            const gradient =  2 * distance/maxDistance;
+            const gradient =  radius * distance/maxDistance;
             this.matrix[x][y] = (this.matrix[x][y] * gradient);
         }
         }
@@ -132,20 +102,14 @@ class World {
     }
 
     getTileColor(value) {
-        let currentPalette = this.palettes[1]
-        if (value > 0.60) return currentPalette['wall'];
-        if (value > 0.50) return currentPalette['light-wall'];
-        return currentPalette['floor'];
+        let currentPalette = this.currentLevel.palette
+        // if (value > 0.60) return currentPalette['wall'];
+        if (value > 0.50) return currentPalette['wall'];
+        if (value > 0.1) return currentPalette['floor'];
+        return currentPalette['water'];
     }
 }
 
-function getRandom(max) {
-    return Math.floor(Math.random() * max);
-}
-
-function getRandomMin(min, max) {
-    return Math.floor(min + Math.random() * (max - min));
-}
 
 
 

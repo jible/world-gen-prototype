@@ -1,14 +1,13 @@
 // Configure buttons
-let regenButton, cleanUpButton, smoothButton, methodSelect, gradientButton, currentMethod = "noise"
+let regenButton, cleanUpButton, smoothButton, methodSelect, gradientButton, currentMethod = "noise", buttonHolder
+buttonHolder = document.getElementById("level-select")
 gradientButton = document.getElementById("gradient")
 regenButton = document.getElementById("regen");
-cleanUpButton = document.getElementById("cleanUp");
 smoothButton = document.getElementById("smooth");
 
 // Set up responses
 gradientButton.addEventListener('click', applyGradient)
 regenButton.addEventListener('click', regenerateWorld);
-cleanUpButton.addEventListener('click', cleanUpWorld);
 smoothButton.addEventListener('click', smoothWorld);
 
 
@@ -24,7 +23,7 @@ function resizeScreen() {
 
 function regenerateWorld() {
     seed++;
-    world.generateWorld(currentMethod,Math.floor(Math.random(seed) * 100));
+    world.generateWorld( Math.floor(Math.random(seed) * 100));
 }
 
 function cleanUpWorld() {
@@ -33,4 +32,17 @@ function cleanUpWorld() {
 
 function smoothWorld() {
     world.applySmooth();
+}
+
+function makeButtons(levels, world){
+    for (let level of levels){
+        let button = document.createElement("button")
+        console.log(button)
+        button.textContent = level.name
+        button.addEventListener("click",()=>  {
+            world.currentLevel = level
+            world.generateWorld()
+        })
+        buttonHolder.appendChild(button)
+    }
 }

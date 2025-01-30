@@ -7,8 +7,8 @@ canvas {
   height: 90vh;
 }
 
-#level-select{
-  display: block;
+#level-select-holder{
+  display: bl;
 }
 
 #content{

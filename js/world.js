@@ -44,6 +44,14 @@ class World {
         this.matrix[pos.y][pos.x] += add;
     }
 
+    fill(value){
+        for (let x = 0; x < this.width; x++) {
+            for (let y = 0; y < this.height; y++) {
+                this.matrix[x][y] = value;
+            }
+        }
+    }
+
     applyNoise(seed){
         const noiseScale = 0.1;
         for (let x = 0; x < this.width; x++) {
@@ -55,6 +63,26 @@ class World {
 
     }
             
+
+    applyRandomWalk(seed, steps = this.width* this.height / 2){
+        this.fill(1)
+        let directions = [
+            new Vector2(0,1),
+            new Vector2(0,-1),
+            new Vector2(-1,0),
+            new Vector2(1,0)
+        ]
+        let start = new Vector2(Math.floor(this.width/2) , Math.floor(this.height/2))
+        let pos = start.dupe()
+        for ( let step = 0; step < steps; step++){
+            this.setValue(pos, .3)
+            let look = pos.add( directions [ Math.floor(Math.random(seed + pos.x + pos.y + step) * 4) ])
+            if ( look.x == 0 || look.x == this.width - 1 || look.y == 0 || look.y == this.length - 1){
+                pos = start.dupe()
+            } else pos = look.dupe()
+        }
+
+    }
 
     applySmooth() {
         const newMat = this.matrix.map((row, y) => row.map((cell, x) => {
@@ -74,16 +102,32 @@ class World {
 
     
 
-    applyGradient(radius = 2) {
+    applyGradient(radius = (this.width + this.height)/2) {
+        let radiusMult = radius/100 
         const center = new Vector2(this.width / 2, this.height / 2);
         const maxDistance = Math.sqrt(center.x ** 2 + center.y ** 2);
 
         for (let x = 0; x < this.width; x++) {
         for (let y = 0; y < this.height; y++) {
             const distance = Math.sqrt((x - center.x) ** 2 + (y - center.y) ** 2);
-            const gradient =  radius * distance/maxDistance;
+            const gradient =  radiusMult * distance/maxDistance;
             this.matrix[x][y] = (this.matrix[x][y] * gradient);
         }
+        }
+    }
+
+    applyPerimeter(){
+        for (let y = 0; y < this.height; y++) {
+        for (let x = 0; x < this.width; x++) {
+            const value = this.getValue(new Vector2(x, y));
+            let offset = get_offset(x,y, this.height, this.width) 
+            let mult = 10 / ( offset )
+            this.matrix[y][x]  = value * mult
+        }
+        }
+
+        function get_offset(x,y, width, height){
+            return Math.min(x,y, width - x, height - y)
         }
     }
 

@@ -6,10 +6,27 @@ let levels = [
             'floor': '#9BC53D',
             'water': '#5BC0EB'
         },
-        generate(matrix,seed = 0) {
-            matrix.applyNoise(seed)
-            matrix.applyPerimeter()
-        },
+        generate(world,seed = 0) {
+            world.applyNoise(seed)
+            world.applyPerimeter()
+
+            // setTiles(world)
+            
+            // function setTiles(world){
+            //     for (let y = 0; y < world.height; y++) {
+            //     for (let x = 0; x < world.width; x++) {
+            //         let position = new Vector2(x,y)
+            //         const value = world.getValue(position);
+            //         if (value > .5) {
+            //             world.setValue(position, 'wall') 
+            //         } else {
+            //             world.setValue(position, 'floor') 
+            //         }
+            //     }
+            //     }
+            // }
+        }
+        
     },
     {
         name: "Lust",
@@ -18,8 +35,24 @@ let levels = [
             'floor': '#1B2021',
             'water': '#A6A867'
         },
-        generate(matrix,seed = 0) {
-            matrix.applyRandomWalk(seed)
+        generate(world,seed = 0) {
+            world.applyRandomWalk(seed)
+
+            // setTiles(world)
+
+            // function setTiles(world){
+            //     for (let y = 0; y < world.height; y++) {
+            //     for (let x = 0; x < world.width; x++) {
+            //         let position = new Vector2(x,y)
+            //         const value = world.getValue(position);
+            //         if (value > .5) {
+            //             world.setValue(position, 'wall') 
+            //         } else {
+            //             world.setValue(position, 'floor') 
+            //         }
+            //     }
+            //     }
+            // }
         },
     },
     {
@@ -29,8 +62,8 @@ let levels = [
             'floor': '#5C80BC',
             'water': '#E9EDDE'
         },
-        generate(matrix,seed = 0) {
-            matrix.applyNoise(seed)
+        generate(world,seed = 0) {
+            world.applyNoise(seed)
         },
     },
     {
@@ -40,8 +73,8 @@ let levels = [
             'floor': '#698F3F',
             'water': '#F2D492'
         },
-        generate(matrix,seed = 0) {
-            matrix.applyNoise(seed)
+        generate(world,seed = 0) {
+            world.applyNoise(seed)
         },
     },
     {
@@ -51,8 +84,8 @@ let levels = [
             'floor': '#5C80BC',
             'water': '#E9EDDE'
         },
-        generate(matrix,seed = 0) {
-            matrix.applyNoise(seed)
+        generate(world,seed = 0) {
+            world.applyNoise(seed)
         },
     },
     {
@@ -62,8 +95,8 @@ let levels = [
             'floor': '#FAA613',
             'water': '#FAA613'
         },
-        generate(matrix,seed = 0) {
-            matrix.applyNoise(seed)
+        generate(world,seed = 0) {
+            world.applyNoise(seed)
         },
     },
     {
@@ -73,8 +106,8 @@ let levels = [
             'floor': '#440D0F',
             'water': '#AF9BB6'
         },
-        generate(matrix,seed = 0) {
-            matrix.applyNoise(seed)
+        generate(world,seed = 0) {
+            world.applyNoise(seed)
         },
     },
     {
@@ -84,8 +117,8 @@ let levels = [
             'floor': '#F2C57C',
             'water': '#7FB685'
         },
-        generate(matrix,seed = 0) {
-            matrix.applyNoise(seed)
+        generate(world,seed = 0) {
+            world.applyNoise(seed)
         },
     },
     {
@@ -96,8 +129,8 @@ let levels = [
             'floor': '#83C5BE',
             'water': '#E6E8E6'
         },
-        generate(matrix,seed = 0) {
-            matrix.applyNoise(seed)
+        generate(world,seed = 0) {
+            world.applyNoise(seed)
         },
     },
 ]

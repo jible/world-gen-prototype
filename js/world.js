@@ -28,22 +28,30 @@ class World {
             for (let y = 0; y < this.height; y++) {
                 this.matrix[x][y] = value;
             }
+           this.wait()
         }
     }
 
-    applyNoise(seed){
+    async applyNoise(seed){
         const noiseScale = 0.1;
+        let count = 0
+        let max = 500
         for (let x = 0; x < this.width; x++) {
             for (let y = 0; y < this.height; y++) {
                 const noiseValue = noise(x * noiseScale + seed, y * noiseScale + seed);
                 this.matrix[x][y] = noiseValue;
+                count ++
+                if (count > max){
+                    await this.wait(1)
+                    count = 0
+                }
             }
         }
 
     }
             
 
-    applyRandomWalk(seed, steps = this.width* this.height / 2){
+    async applyRandomWalk(seed, steps = this.width* this.height / 2){
         this.fill(1)
         let directions = [
             new Vector2(0,1),
@@ -53,17 +61,30 @@ class World {
         ]
         let start = new Vector2(Math.floor(this.width/2) , Math.floor(this.height/2))
         let pos = start.dupe()
+        let count = 0
+        let max = 50
         for ( let step = 0; step < steps; step++){
             this.setValue(pos, .3)
             let look = pos.add( directions [ Math.floor(Math.random(seed + pos.x + pos.y + step) * 4) ])
             if ( look.x == 0 || look.x == this.width - 1 || look.y == 0 || look.y == this.length - 1){
                 pos = start.dupe()
             } else pos = look.dupe()
+            count ++
+            if (count > max){
+                await this.wait(1)
+                count = 0
+            }
+
         }
 
     }
 
-    applySmooth() {
+    // Grabbed this function from chatgpt
+    wait(t =1){
+        return new Promise(resolve => requestAnimationFrame(resolve))
+    }
+
+    async applySmooth() {
         const newMat = this.matrix.map((row, y) => row.map((cell, x) => {
         let total = 0, count = 0;
         for (let i = -1; i <= 1; i++) {
